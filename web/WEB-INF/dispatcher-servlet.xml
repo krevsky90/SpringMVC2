@@ -6,8 +6,29 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="app"/>
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
+    <!-- Useless view resolver for JSPs -->
+<!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+<!--        <property name="prefix" value="WEB-INF/jsp/"/>-->
+<!--        <property name="suffix" value=".jsp"/>-->
+<!--    </bean>-->
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/templates"/>
+        <!-- optional for cyrillic symbols -->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Useful view resolver for FreeMarker's pages -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="suffix" value=".ftl"/>
+        <!-- false for development/debug -->
+        <property name="cache" value="false"/>
+        <!-- optional for cyrillic symbols -->
+        <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 </beans>
