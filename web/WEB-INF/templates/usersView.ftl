@@ -3,11 +3,15 @@
     <title>KREV users</title>
 </head>
 <body>
-<ul>
-    <#list usersVar as tempUser>
-        <li>${tempUser.name} ${tempUser.surname} ${tempUser.email}</li>
-    </#list>
-</ul>
+<#if usersVar?has_content>
+    <ul>
+        <#list usersVar as tempUser>
+            <li>${tempUser.name} ${tempUser.surname} ${tempUser.email}</li>
+        </#list>
+    </ul>
+<#else>
+    <p>No users yet</p>
+</#if>
 
 </body>
 </html>
