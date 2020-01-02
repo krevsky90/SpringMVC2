@@ -3,8 +3,10 @@ package app;
 import app.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +36,14 @@ public class MainController {
     public String getUsers(Model model) {
 
         model.addAttribute("usersVar", usersList);
-        return "usersView";
+        return "/usersView";
 
     }
 
     @GetMapping("/users/new")
-    public String getSignUp() {
-        return "sign_up";
+    public String getSignUp(Model model) {
+        model.addAttribute("user", new User());
+        return "/sign_up";
     }
 
     //Difficult way - to send each fieled as separate parameter
@@ -55,7 +58,10 @@ public class MainController {
 //    }
 
     @PostMapping("/users/new")
-    public String signUp(@ModelAttribute User user) {
+    public String signUp(@ModelAttribute @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/sign_up";
+        }
         usersList.add(user);
 
         //to return view from post-method is BAD practise -> good way is to redirect to some GET-handler
