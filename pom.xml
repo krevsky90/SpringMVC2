@@ -37,6 +37,15 @@
             <artifactId>hibernate-validator</artifactId>
             <version>6.0.17.Final</version>
         </dependency>
+        <!-- ATTENTION!
+        this ojdbc8 dependency works only if ojdbc8.jar was manually downloaded and registered in the local mcn repository using command like:
+        mvn install:install-file -Dfile=d:\ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=19.3 -Dpackaging=jar -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>19.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

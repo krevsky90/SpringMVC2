@@ -1,0 +1,15 @@
+//just text to copy paste to Oracle DB console and execute
+
+create table users (
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+insert into users values ('Grig', 'krev', 'k@k.ru');
+commit;
+
+select * from users;
+
+drop table users;
+commit;

@@ -1,18 +1,23 @@
 package app;
 
+import app.dao.UserDAO;
 import app.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 
 @Controller
 public class MainController {
-    List<User> usersList = new ArrayList<>();
+
+    @Autowired
+    private UserDAO userDAO;
+
+//    List<User> usersList = new ArrayList<>();
 //        usersList.add(new User("name1", "surname1", "email1"));
 //        usersList.add(new User("name2", "surname2", "email2"));
 //        usersList.add(new User("name3", "surname3", "email3"));
@@ -33,9 +38,9 @@ public class MainController {
     }
 
     @GetMapping("/users")
-    public String getUsers(Model model) {
+    public String getUsers(Model model) throws SQLException {
 
-        model.addAttribute("usersVar", usersList);
+        model.addAttribute("usersVar", userDAO.getAllUsers());
         return "/usersView";
 
     }
@@ -62,11 +67,9 @@ public class MainController {
         if (bindingResult.hasErrors()) {
             return "/sign_up";
         }
-        usersList.add(user);
+//        usersList.add(user);
 
         //to return view from post-method is BAD practise -> good way is to redirect to some GET-handler
         return "redirect:/users";
     }
-
-
 }
