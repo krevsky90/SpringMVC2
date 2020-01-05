@@ -2,6 +2,7 @@ package app;
 
 import app.dao.UserDAO;
 import app.model.User;
+import app.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ public class MainController {
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private UserValidator userValidator;
 
 //    List<User> usersList = new ArrayList<>();
 //        usersList.add(new User("name1", "surname1", "email1"));
@@ -63,11 +66,13 @@ public class MainController {
 //    }
 
     @PostMapping("/users/new")
-    public String signUp(@ModelAttribute @Valid User user, BindingResult bindingResult) {
+    public String signUp(@ModelAttribute @Valid User user, BindingResult bindingResult) throws SQLException {
+        userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/sign_up";
         }
 //        usersList.add(user);
+        userDAO.addUser(user);
 
         //to return view from post-method is BAD practise -> good way is to redirect to some GET-handler
         return "redirect:/users";

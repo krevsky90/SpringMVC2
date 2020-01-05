@@ -55,4 +55,33 @@ public class UserDAO {
 
         return allUsers;
     }
+
+    public User getUserByEmail(String email) {
+        try {
+            PreparedStatement ps = null;
+            ps = conn.prepareStatement("select * from users where EMAIL = ?");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            //use 'if' because email should be unique -> we return the only one user that has requested email
+            if (rs.next()) {
+                User user = new User();
+                user.setName(rs.getString("name"));
+                user.setSurname(rs.getString("surname"));
+                user.setEmail(rs.getString("email"));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void addUser(User user) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("insert into users values (?, ?, ?)");
+        ps.setString(1, user.getName());
+        ps.setString(2, user.getSurname());
+        ps.setString(3, user.getEmail());
+        ps.execute();
+    }
 }
