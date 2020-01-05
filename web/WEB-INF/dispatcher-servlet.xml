@@ -6,6 +6,8 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="app"/>
 
+    <import resource="persistence-config.xml"/>
+
     <!-- Useless view resolver for JSPs -->
 <!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
 <!--        <property name="prefix" value="WEB-INF/jsp/"/>-->
