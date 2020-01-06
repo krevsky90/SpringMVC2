@@ -4,6 +4,7 @@ import app.dao.UserDAO;
 import app.model.User;
 import app.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 public class MainController {
 
     @Autowired
+    @Qualifier("hibernateUserDAO")
     private UserDAO userDAO;
     @Autowired
     private UserValidator userValidator;

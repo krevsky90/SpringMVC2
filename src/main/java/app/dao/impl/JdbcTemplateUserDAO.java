@@ -1,0 +1,52 @@
+package app.dao.impl;
+
+import app.dao.UserDAO;
+import app.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class JdbcTemplateUserDAO implements UserDAO {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public List<User> getAllUsers() {
+//        List<User> allUsers = jdbcTemplate.query("select * from users", new RowMapper<User>() {
+//            @Override
+//            public User mapRow(ResultSet rs, int i) throws SQLException {
+//                User user = new User();
+//                user.setName(rs.getString("name"));
+//                user.setSurname(rs.getString("surname"));
+//                user.setEmail(rs.getString("email"));
+//                return user;
+//            }
+//        });
+
+        //OR... (if the names of POJO are the same as the names of DB columns (as in our case)
+        List<User> allUsers = jdbcTemplate.query("select * from users", new BeanPropertyRowMapper<>(User.class));
+
+        return allUsers;
+    }
+
+    //NOTE: if queryForObject doesn't return result - it throws exception!
+    //that's why we can catch this exception or use queryForList
+    @Override
+    public User getUserByEmail(String email) {
+        User user = jdbcTemplate.query("select * from users where EMAIL = ?",
+                new Object[]{email},
+                new BeanPropertyRowMapper<>(User.class)
+        ).stream().findAny().orElse(null);
+
+        return user;
+    }
+
+    @Override
+    public void addUser(User user) {
+        jdbcTemplate.update("insert into users values (?, ?, ?)", user.getName(), user.getSurname(), user.getEmail());
+    }
+}

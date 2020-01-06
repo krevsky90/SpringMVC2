@@ -3,6 +3,7 @@ package app.utils;
 import app.dao.UserDAO;
 import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,6 +11,7 @@ import org.springframework.validation.Validator;
 @Component
 public class UserValidator implements Validator {
     @Autowired
+    @Qualifier("hibernateUserDAO")
     private UserDAO userDAO;
 
     @Override
