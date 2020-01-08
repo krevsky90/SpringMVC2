@@ -30,4 +30,45 @@
             </props>
         </property>
     </bean>
+
+    <!-- for Spring Data JPA - START -->
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <!--just as hack to create/update DDL of database if tables that are relevant to our java-entities are not created-->
+        <!--may be useful to save your time for quick development/create some draft-->
+        <!--of course this approach can't be used for real project-->
+        <!--        <property name="generateDdl" value="true"/>-->
+
+        <!-- to set dialect
+         NOTE: As alternative of 'jpaProperties' field of 'emf' bean -->
+        <property name="databasePlatform" value="${hibernate.dialect}"/>
+        <property name="showSql" value="true"/>
+    </bean>
+
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="packagesToScan" value="app.model"/>
+        <!--        <property name="jpaProperties">-->
+        <!--            <props>-->
+        <!--                &lt;!&ndash; full list of dialects see here: http://javamanikandan.blogspot.com/2014/05/sql-dialects-in-hibernate.html-->
+        <!--                https://stackoverflow.com/questions/21012799/why-do-i-need-to-configure-the-sql-dialect-of-a-data-source &ndash;&gt;-->
+        <!--                <prop key="hibernate.dialect">${hibernate.dialect}</prop>-->
+        <!--            </props>-->
+        <!--        </property>-->
+    </bean>
+
+    <!-- each entityManager should be able to work with transactions -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf"/>
+    </bean>
+
+    <!-- to fix the problem described here: https://www.baeldung.com/spring-cache-tutorial -->
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" name="addresses"/>
+            </set>
+        </property>
+    </bean>
+    <!-- for Spring Data JPA - END -->
 </beans>
