@@ -17,7 +17,8 @@ import java.util.List;
 @Component
 public class JpaUserDAO implements UserDAO {
     //instead of Autowired
-    @PersistenceContext(unitName = "emf")
+    //NOTE: id should be 'entityManagerFactory' if we want use JpaRepository!
+    @PersistenceContext(unitName = "entityManagerFactory")
     //this annotation says that current component (JpaUserDAO) depends on EntityManager (that is managed by spring-container of beans) and EN is related to its PersistenceContext
     //PersistenceContext is 'place' when we are working on our entity until we save the changes
     private EntityManager entityManager;
