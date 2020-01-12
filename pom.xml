@@ -87,6 +87,14 @@
             <version>2.3.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <!-- provided - because current dependency should be provided by servlet-container (Tomcat) -->
+            <scope>provided</scope>
+        </dependency>
+
         <!-- ATTENTION!
         this ojdbc8 dependency works only if ojdbc8.jar was manually downloaded and registered in the local mcn repository using command like:
         mvn install:install-file -Dfile=d:\ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=19.3 -Dpackaging=jar -->
@@ -116,6 +124,8 @@
                 <version>3.1.0</version>
                 <configuration>
                     <warSourceDirectory>web</warSourceDirectory>
+                    <!-- to avoid failing of maven when it searches web.xml to build maven-war-plugin -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
