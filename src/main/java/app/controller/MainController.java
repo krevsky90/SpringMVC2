@@ -1,10 +1,9 @@
-package app;
+package app.controller;
 
-import app.dao.UserDAO;
 import app.model.User;
+import app.service.UserService;
 import app.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,8 +15,7 @@ import javax.validation.Valid;
 public class MainController {
 
     @Autowired
-    @Qualifier("jpaUserDAO")
-    private UserDAO userDAO;
+    private UserService userService;
     @Autowired
     private UserValidator userValidator;
 
@@ -38,7 +36,7 @@ public class MainController {
     @GetMapping("/users")
     public String getUsers(Model model) {
 
-        model.addAttribute("usersVar", userDAO.getAllUsers());
+        model.addAttribute("usersVar", userService.getAllUsers());
         return "/usersView";
 
     }
@@ -66,7 +64,7 @@ public class MainController {
         if (bindingResult.hasErrors()) {
             return "/sign_up";
         }
-        userDAO.addUser(user);
+        userService.addUser(user);
 
         //to return view from post-method is BAD practise -> good way is to redirect to some GET-handler
         return "redirect:/users";

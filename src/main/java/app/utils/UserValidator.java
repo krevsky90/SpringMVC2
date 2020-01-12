@@ -1,9 +1,8 @@
 package app.utils;
 
-import app.dao.UserDAO;
 import app.model.User;
+import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,8 +10,7 @@ import org.springframework.validation.Validator;
 @Component
 public class UserValidator implements Validator {
     @Autowired
-    @Qualifier("jpaUserDAO")
-    private UserDAO userDAO;
+    private UserService userService;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -25,7 +23,7 @@ public class UserValidator implements Validator {
         User user = (User) o;
         String email = user.getEmail();
 
-        if (userDAO.getUserByEmail(email) != null) {
+        if (userService.getUserByEmail(email) != null) {
             errors.rejectValue("email", "", "This email is already in use");
         }
     }
