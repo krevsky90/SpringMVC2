@@ -17,7 +17,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc   //equals <mvc:annotation-driven/>
 @EnableAspectJAutoProxy
-@ComponentScan({"app.controller", "app.service", "app.utils"})
+@ComponentScan({"app.controller"})
 //@ImportResource({"WEB-INF/persistence-config.xml"})
 public class WebConfig implements WebMvcConfigurer {
 
