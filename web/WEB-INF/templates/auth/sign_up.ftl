@@ -5,7 +5,7 @@
     <title>Sign up</title>
 </head>
 <body>
-<@sf.form action="/users/new" method="post" modelAttribute="user">
+<@sf.form action="/sign_up" method="post" modelAttribute="user">
     <div>
         <!-- just name of current field -->
         <@sf.label path="name">Name</@sf.label>
@@ -20,8 +20,13 @@
     </div>
     <div>
         <@sf.label path="email">Email</@sf.label>
-        <@sf.input path="email"/>
+        <@sf.input path="email" type="email"/>
         <@sf.errors path="email"/>
+    </div>
+    <div>
+        <@sf.label path="password">Password</@sf.label>
+        <@sf.input path="password" type="password"/>
+        <@sf.errors path="password"/>
     </div>
     <input type="submit">
 </@sf.form>

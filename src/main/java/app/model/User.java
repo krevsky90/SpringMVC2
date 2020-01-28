@@ -20,6 +20,8 @@ public class User {
     private String surname;
     @Email(message = "Email is incorrect")
     private String email;
+    @Size(min = 7, message = "Min length = 7 symbols")
+    private String password;
 
     //necessary for @ModelAttribute annotation that creates new instance of User-bean and it uses default constructor and then fills fields using setters
     public User() {
@@ -47,6 +49,10 @@ public class User {
         return email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     //necessary for @ModelAttribute annotation that creates new instance of User-bean and it uses default constructor and then fills fields using setters
     public void setId(BigDecimal id) {
         this.id = id;
@@ -62,5 +68,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
